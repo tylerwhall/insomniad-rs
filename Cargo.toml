@@ -1,0 +1,16 @@
+[package]
+name = "insomniad"
+version = "0.1.0"
+authors = ["Tyler Hall <tylerwhall@gmail.com>"]
+
+[dependencies]
+env_logger = "0.3.5"
+getopts = "0.2"
+libc = "0.2.19"
+log = "0.3.6"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
