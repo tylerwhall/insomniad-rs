@@ -41,11 +41,11 @@ impl PowerState {
                        states)
             }
         } else if let Some(state) = states.split_whitespace()
-            .find(|kstate| kstate == &"mem") {
+            .find(|kstate| *kstate == "mem") {
             // Prefer mem
             state.to_string()
         } else if let Some(state) = states.split_whitespace()
-            .find(|kstate| kstate == &"freeze") {
+            .find(|kstate| *kstate == "freeze") {
             // Then prefer freeze
             state.to_string()
         } else if let Some(state) = states.split_whitespace().next() {
