@@ -27,7 +27,11 @@ struct PowerState {
 
 impl PowerState {
     fn new(dry_run: bool, state: Option<String>) -> Self {
-        let mut file = File::open("/sys/power/state").expect("Failed to open state file");
+        let mut file = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open("/sys/power/state")
+            .expect("Failed to open state file");
         let mut states = String::new();
         file.read_to_string(&mut states).expect("Failed to read states");
 
