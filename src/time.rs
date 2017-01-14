@@ -51,6 +51,12 @@ impl FromStr for MonotonicTimeMS {
     }
 }
 
+impl From<u64> for MonotonicTimeMS {
+    fn from(val: u64) -> Self {
+        MonotonicTimeMS(val)
+    }
+}
+
 impl Sub for MonotonicTimeMS {
     type Output = Duration;
 

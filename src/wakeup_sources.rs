@@ -3,7 +3,7 @@ use std::io::{BufRead, BufReader, Read};
 
 use ::time::MonotonicTimeMS;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct WakeupSource {
     pub name: String,
     pub active_count: u64,
@@ -41,6 +41,23 @@ fn parse_wakeup_source(line: &str) -> WakeupSource {
     }
 }
 
+#[test]
+fn test_parse_wakeup_source() {
+    let ws = parse_wakeup_source("source\t0\t0\t0\t0\t0\t0\t0\t500\t0\n");
+    assert_eq!(ws, WakeupSource {
+        name: "source".to_string(),
+        active_count: 0u64.into(),
+        event_count: 0u64.into(),
+        wakeup_count: 0u64.into(),
+        expire_count: 0u64.into(),
+        active_since: 0u64.into(),
+        total_time: 0u64.into(),
+        max_time: 0u64.into(),
+        last_change: 500u64.into(),
+        prevent_suspend_time: 0u64.into(),
+    });
+}
+
 fn most_recent_event<R: Read>(file: R) -> Option<WakeupSource> {
     const HEADER: &'static str = concat!("name\t\t",
                                          "active_count\tevent_count\twakeup_count\t",
@@ -56,6 +73,16 @@ fn most_recent_event<R: Read>(file: R) -> Option<WakeupSource> {
     // Return the most recent
     lines.map(|line| parse_wakeup_source(&line.expect("Read sources line failed")))
         .max_by_key(|source| source.last_change)
+}
+
+#[test]
+fn test_most_recent() {
+    use std::io::Cursor;
+
+    let cursor = Cursor::new(&include_bytes!("wakeup_sources")[..]);
+    let ws = most_recent_event(cursor).unwrap();
+    assert_eq!(&ws.name, "foo");
+    assert_eq!(ws.last_change, 2229000u64.into());
 }
 
 pub fn get_most_recent_event() -> Option<WakeupSource> {
