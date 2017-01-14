@@ -32,7 +32,7 @@ impl MonotonicTimeMS {
         let ts = get_monotonic().expect("clock_gettime failed");
         let mut ms = ts.tv_sec as i64;
         ms *= 1000;
-        ms += ts.tv_nsec / 1000 / 1000;
+        ms += ts.tv_nsec as i64 / 1000 / 1000;
         MonotonicTimeMS(ms as u64)
     }
 }
