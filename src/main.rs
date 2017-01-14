@@ -222,7 +222,7 @@ fn main() {
 
         info!("Going to sleep");
         if !state.sleep() {
-            info!("Non-fatal error writing to suspend state");
+            debug!("Non-fatal error writing to suspend state");
             // Rate-limit suspend attempts to avoid thrashing aborted suspends
             sleep(Duration::from_secs(1));
             continue;
