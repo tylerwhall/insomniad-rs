@@ -59,6 +59,6 @@ fn most_recent_event<R: Read>(file: R) -> Option<WakeupSource> {
 }
 
 pub fn get_most_recent_event() -> Option<WakeupSource> {
-    let f = File::open("/sys/kernel/debug/wakeup_sources").unwrap();
+    let f = File::open("/sys/kernel/debug/wakeup_sources").expect("Failed to open wakeup_sources");
     most_recent_event(f)
 }
