@@ -44,19 +44,21 @@ impl PowerState {
                        state,
                        states)
             }
-        } else if let Some(state) = states.split_whitespace()
-            .find(|kstate| *kstate == "mem") {
-            // Prefer mem
-            state.to_string()
-        } else if let Some(state) = states.split_whitespace()
-            .find(|kstate| *kstate == "freeze") {
-            // Then prefer freeze
-            state.to_string()
-        } else if let Some(state) = states.split_whitespace().next() {
-            // Else take the first available option
-            state.to_string()
         } else {
-            panic!("No suspend states supported by the kernel")
+            if let Some(state) = states.split_whitespace()
+                .find(|kstate| *kstate == "mem") {
+                // Prefer mem
+                state.to_string()
+            } else if let Some(state) = states.split_whitespace()
+                .find(|kstate| *kstate == "freeze") {
+                // Then prefer freeze
+                state.to_string()
+            } else if let Some(state) = states.split_whitespace().next() {
+                // Else take the first available option
+                state.to_string()
+            } else {
+                panic!("No suspend states supported by the kernel")
+            }
         };
         info!("Using '{}' suspend mode", state);
 
