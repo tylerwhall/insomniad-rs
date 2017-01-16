@@ -44,18 +44,19 @@ fn parse_wakeup_source(line: &str) -> WakeupSource {
 #[test]
 fn test_parse_wakeup_source() {
     let ws = parse_wakeup_source("source\t0\t0\t0\t0\t0\t0\t0\t500\t0\n");
-    assert_eq!(ws, WakeupSource {
-        name: "source".to_string(),
-        active_count: 0u64.into(),
-        event_count: 0u64.into(),
-        wakeup_count: 0u64.into(),
-        expire_count: 0u64.into(),
-        active_since: 0u64.into(),
-        total_time: 0u64.into(),
-        max_time: 0u64.into(),
-        last_change: 500u64.into(),
-        prevent_suspend_time: 0u64.into(),
-    });
+    assert_eq!(ws,
+               WakeupSource {
+                   name: "source".to_string(),
+                   active_count: 0u64.into(),
+                   event_count: 0u64.into(),
+                   wakeup_count: 0u64.into(),
+                   expire_count: 0u64.into(),
+                   active_since: 0u64.into(),
+                   total_time: 0u64.into(),
+                   max_time: 0u64.into(),
+                   last_change: 500u64.into(),
+                   prevent_suspend_time: 0u64.into(),
+               });
 }
 
 fn most_recent_event<R: Read>(file: R) -> Option<WakeupSource> {
